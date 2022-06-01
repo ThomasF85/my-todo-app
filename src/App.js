@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import "./App.css";
 import ToDo from "./components/ToDo";
@@ -6,26 +6,13 @@ import { nanoid } from "nanoid";
 import AddTodoForm from "./components/AddTodoForm";
 
 function App() {
-  const [todos, setTodos] = useState([
-    {
-      id: nanoid(),
-      text: "Wash the car",
-      completed: false,
-      archived: false,
-    },
-    {
-      id: nanoid(),
-      text: "Do the dishes",
-      completed: true,
-      archived: false,
-    },
-    {
-      id: nanoid(),
-      text: "Read newspaper",
-      completed: false,
-      archived: false,
-    },
-  ]);
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/todos")
+      .then((res) => res.json())
+      .then((data) => setTodos(data));
+  }, []);
 
   function toggleCompleted(id) {
     const toggledTodos = todos.map((todo) => {
