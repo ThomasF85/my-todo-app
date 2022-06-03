@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import useStore from "../common/useStore";
 
-function AddTodoForm({ addTodo }) {
+function AddTodoForm() {
   const [text, setText] = useState("");
+  const addTodo = useStore((state) => state.addTodo);
 
   return (
     <Form

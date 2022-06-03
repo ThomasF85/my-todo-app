@@ -1,18 +1,24 @@
 import React from "react";
 import styled from "styled-components";
+import useStore from "../common/useStore";
 
-function ToDo({ text, completed, toggleCompleted, deleteTodo, archive }) {
+function ToDo({ id }) {
+  const toggleCompleted = useStore((state) => state.toggleCompleted);
+  const deleteTodo = useStore((state) => state.deleteTodo);
+  const archive = useStore((state) => state.archive);
+  const todo = useStore((state) => state.todos.find((todo) => todo.id === id));
+
   return (
-    <Wrapper completed={completed}>
-      <p>{text}</p>
+    <Wrapper completed={todo.completed}>
+      <p>{todo.text}</p>
       <div>
-        <Button onClick={toggleCompleted}>
-          {completed ? "uncomplete" : "complete"}
+        <Button onClick={() => toggleCompleted(id)}>
+          {todo.completed ? "uncomplete" : "complete"}
         </Button>
-        {completed ? (
-          <Button onClick={archive}>archive</Button>
+        {todo.completed ? (
+          <Button onClick={() => archive(id)}>archive</Button>
         ) : (
-          <Button onClick={deleteTodo}>delete</Button>
+          <Button onClick={() => deleteTodo(id)}>delete</Button>
         )}
       </div>
     </Wrapper>
